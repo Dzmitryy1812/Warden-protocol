@@ -23,13 +23,13 @@ Working directory: .warden
 
 Подготовка сервера
 
-# обновляем репозитории
+ # обновляем репозитории
  ```sudo apt update
 sudo apt-get install git curl build-essential make jq gcc snapd chrony lz4 tmux unzip bc -y 
 ```
 # устанавливаем необходимые утилиты
 
-```apt install curl iptables build-essential git wget jq make gcc nano tmux htop nvme-cli pkg-config libssl-dev libleveldb-dev tar clang bsdmainutils ncdu unzip libleveldb-dev -y
+```apt install curl iptables build-essential git wget jq make gcc nano tmux htop nvme-cli pkg-config libssl-dev libleveldb-dev tar clang bsdmainutils ncdu unzip libleveldb-dev -y 
 ```
 
 # устанавливаем и копируем конфиг, который будет иметь больший приоритет
