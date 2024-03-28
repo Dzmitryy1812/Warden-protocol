@@ -85,7 +85,7 @@ s|^(trust_hash[[:space:]]+=[[:space:]]+).*$|\1\"$TRUST_HASH\"|" $HOME/.warden/co
 ```
 Create service
 
-   ```sudo tee /etc/systemd/system/wardend.service > /dev/null <<EOF
+```sudo tee /etc/systemd/system/wardend.service > /dev/null <<EOF
     [Unit]
     Description=Warden Protocol
     After=network-online.target
@@ -128,6 +128,7 @@ Check Banlance
 
 ```wardend q bank balances $(wardend keys show wallet -a)
 ```
+
 Create a new validator
 Once the node is synced and you have the required WARD, you can become a validator.
 
@@ -137,6 +138,7 @@ Obtain your validator public key by running the following command:
 
 ```wardend comet show-validator
 ```
+
 The output will be similar to this (with a different key):
 
 ```{"@type":"/cosmos.crypto.ed25519.PubKey","key":"lR1d7YBVK5jYijOfWVKRFoWCsS4dg3kagT7LB9GnG8I="}
@@ -145,6 +147,7 @@ Create validator.json file
 
 ```nano validator.json
 ```
+
 The validator.json file has the following format: Change your personal information accordingly
 ```
 {    
@@ -169,54 +172,74 @@ Finally, we're ready to submit the transaction to create the validator:
 --fees=500uward
 ```
 Explorer
-
-```https://warden-explorer.paranorm.pro/warden/staking
+``` (https://warden-explorer.paranorm.pro/warden/staking)
 ```
+
 Delegate Token to your own validator
 
-   ``` wardend tx staking delegate $(wardend keys show wallet --bech val -a)  1000000uward \
+```wardend tx staking delegate $(wardend keys show wallet --bech val -a)  1000000uward \
     --from=wallet \
     --chain-id=alfama \
     --fees=500uward
 ```
 Withdraw rewards and commission from your validator
 
-  ```  wardend tx distribution withdraw-rewards $(wardend keys show wallet --bech val -a) \
+```wardend tx distribution withdraw-rewards $(wardend keys show wallet --bech val -a) \
     --from wallet \
     --commission \
     --chain-id=alfama \
     --fees=500uward
 ```
 Unjail validator
-
- ```   wardend tx slashing unjail \
+```wardend tx slashing unjail \
     --from=wallet \
     --chain-id=alfama \
     --fees=500uward
 ```
 Services Management
 
-  ```# Reload Service
-    sudo systemctl daemon-reload
-    # Enable Service
-    sudo systemctl enable wardend
-    # Disable Service
-    sudo systemctl disable wardend
-    # Start Service
-    sudo systemctl start wardend
-    # Stop Service
-    sudo systemctl stop wardend
-    # Restart Service
-    sudo systemctl restart wardend
-    # Check Service Status
-    sudo systemctl status wardend
-    # Check Service Logs
-    sudo journalctl -u wardend -f --no-hostname -o cat
+ Reload Service
+```sudo systemctl daemon-reload
 ```
-#Backup Validator
- ```cat $HOME/.warden/config/priv_validator_key.json
+ Enable Service
+
+```sudo systemctl enable wardend
 ```
-#Remove node
+Disable Service
+
+```sudo systemctl disable wardend
+ ```
+Start Service
+
+```sudo systemctl start wardend
+```
+
+Stop Service
+
+```sudo systemctl stop wardend
+```
+
+ Restart Service
+ 
+```sudo systemctl restart wardend
+```
+
+Check Service Status
+
+```sudo systemctl status wardend
+```
+
+Check Service Logs
+
+```sudo journalctl -u wardend -f --no-hostname -o cat
+```
+
+Backup Validator
+
+```cat $HOME/.warden/config/priv_validator_key.json
+```
+
+Remove node
 ```sudo systemctl stop wardend && sudo systemctl disable wardend && sudo rm /etc/systemd/system/wardend.service && sudo systemctl daemon-reload && rm -rf $HOME/.warden && $HOME/wardenprotocol
 ```
 
