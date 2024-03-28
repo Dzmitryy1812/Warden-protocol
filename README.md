@@ -119,6 +119,7 @@ If you want to create a validator in the testnet, follow the instructions in the
 Create Wallet
 
 ```wardend keys add wallet
+
 ```
 faucet token
 
