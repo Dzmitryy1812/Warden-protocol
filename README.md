@@ -72,7 +72,7 @@ sed -i 's/minimum-gas-prices = ""/minimum-gas-prices = "0.0025uward"/' app.toml
 sed -i 's/persistent_peers = ""/persistent_peers = "6a8de92a3bb422c10f764fe8b0ab32e1e334d0bd@sentry-1.alfama.wardenprotocol.org:26656,7560460b016ee0867cae5642adace5d011c6c0ae@sentry-2.alfama.wardenprotocol.org:26656,24ad598e2f3fc82630554d98418d26cc3edf28b9@sentry-3.alfama.wardenprotocol.org:26656"/' config.toml
 ```
 
-(Recommended) Setup state sync
+Setup state sync
 
 ```bash
 export SNAP_RPC_SERVERS="https://rpc.sentry-1.alfama.wardenprotocol.org:443,https://rpc.sentry-2.alfama.wardenprotocol.org:443,https://rpc.sentry-3.alfama.wardenprotocol.org:443"
@@ -219,6 +219,21 @@ wardend tx slashing unjail \
 ```
 Services Management
 
+Stop Service
+```bash
+sudo systemctl stop wardend
+```
+
+
+Restart Service
+ ```bash
+ sudo systemctl restart wardend
+```
+
+
+Check Service Status
+```bash
+sudo systemctl status wardend
  Reload Service
  
 ```bash
@@ -241,21 +256,7 @@ sudo systemctl start wardend
 ```
 
 
-Stop Service
-```bash
-sudo systemctl stop wardend
-```
 
-
-Restart Service
- ```bash
- sudo systemctl restart wardend
-```
-
-
-Check Service Status
-```bash
-sudo systemctl status wardend
 ```
 
 
@@ -298,7 +299,7 @@ Edit Existing Validator
 wardend tx staking edit-validator \
 --new-moniker="Moniker" \
 --identity=FFB0AA51A2DF5955 \
---details="I'm sexy and I know it😉" \
+--details="Hi World 😉" \
 --chain-id=alfama \
 --commission-rate=0.1 \
 --from=wallet \
