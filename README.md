@@ -22,13 +22,15 @@ Working directory: .warden
 -Hosting: 8 GB RAM + 8 GB Virtual Memory
 
 Update system
-
-```sudo apt update
+```bash
+sudo apt update
 sudo apt-get install git curl build-essential make jq gcc snapd chrony lz4 tmux unzip bc -y
 ```
+
 Install Go
 
-```rm -rf $HOME/go
+```bash
+rm -rf $HOME/go
 sudo rm -rf /usr/local/go
 cd $HOME
 curl https://dl.google.com/go/go1.20.5.linux-amd64.tar.gz | sudo tar -C/usr/local -zxvf -
@@ -41,51 +43,63 @@ EOF
 source $HOME/.profile
 go version
 ```
+
 Installation & Configuration
 
 Build the wardend binary and initalize the chain home folder:
 
-```git clone --depth 1 --branch v0.1.0 https://github.com/warden-protocol/wardenprotocol/
+```bash
+git clone --depth 1 --branch v0.1.0 https://github.com/warden-protocol/wardenprotocol/
 cd  wardenprotocol/warden/cmd/wardend
 go build
 sudo mv wardend /usr/local/bin/
 wardend init <custom_moniker>
 ```
+
 Prepare the genesis file:
 
-```cd $HOME/.warden/config
+```bash
+d $HOME/.warden/config
 rm genesis.json
 wget https://raw.githubusercontent.com/warden-protocol/networks/main/testnet-alfama/genesis.json
 ```
+
 #Set minimum gas price & peers
  
-```sed -i 's/minimum-gas-prices = ""/minimum-gas-prices = "0.0025uward"/' app.toml
+```bash
+sed -i 's/minimum-gas-prices = ""/minimum-gas-prices = "0.0025uward"/' app.toml
 sed -i 's/minimum-gas-prices = ""/minimum-gas-prices = "0.0025uward"/' app.toml
 sed -i 's/persistent_peers = ""/persistent_peers = "6a8de92a3bb422c10f764fe8b0ab32e1e334d0bd@sentry-1.alfama.wardenprotocol.org:26656,7560460b016ee0867cae5642adace5d011c6c0ae@sentry-2.alfama.wardenprotocol.org:26656,24ad598e2f3fc82630554d98418d26cc3edf28b9@sentry-3.alfama.wardenprotocol.org:26656"/' config.toml
 ```
+
 (Recommended) Setup state sync
 
-```export SNAP_RPC_SERVERS="https://rpc.sentry-1.alfama.wardenprotocol.org:443,https://rpc.sentry-2.alfama.wardenprotocol.org:443,https://rpc.sentry-3.alfama.wardenprotocol.org:443"
+```bash
+export SNAP_RPC_SERVERS="https://rpc.sentry-1.alfama.wardenprotocol.org:443,https://rpc.sentry-2.alfama.wardenprotocol.org:443,https://rpc.sentry-3.alfama.wardenprotocol.org:443"
 export LATEST_HEIGHT=$(curl -s "https://rpc.alfama.wardenprotocol.org/block" | jq -r .result.block.header.height)
 export BLOCK_HEIGHT=$((LATEST_HEIGHT - 2000))
 export TRUST_HASH=$(curl -s "https://rpc.alfama.wardenprotocol.org/block?height=$BLOCK_HEIGHT" | jq -r .result.block_id.hash)
 ```
+
 Check that all variables have been set correctly:
 
-```echo $LATEST_HEIGHT $BLOCK_HEIGHT $TRUST_HASH
+```bash
+echo $LATEST_HEIGHT $BLOCK_HEIGHT $TRUST_HASH
 ```
+
 #output should be similar to:
 #70694 68694 6AF4938885598EA10C0BD493D267EF363B067101B6F81D1210B27EBE0B32FA2A
+
 Now you can add the state sync configuration to your config.toml:
 
 ```sed -i.bak -E "s|^(enable[[:space:]]+=[[:space:]]+).*$|\1true| ; \
 s|^(rpc_servers[[:space:]]+=[[:space:]]+).*$|\1\"$SNAP_RPC_SERVERS\"| ; \
 s|^(trust_height[[:space:]]+=[[:space:]]+).*$|\1$BLOCK_HEIGHT| ; \
-s|^(trust_hash[[:space:]]+=[[:space:]]+).*$|\1\"$TRUST_HASH\"|" $HOME/.warden/config/config.toml
-```
+s|^(trust_hash[[:space:]]+=[[:space:]]+).*$|\1\"$TRUST_HASH\"|" $HOME/.warden/config/config.toml```
 Create service
 
-```sudo tee /etc/systemd/system/wardend.service > /dev/null <<EOF
+```bash
+sudo tee /etc/systemd/system/wardend.service > /dev/null <<EOF
     [Unit]
     Description=Warden Protocol
     After=network-online.target
@@ -98,19 +112,17 @@ Create service
     [Install]
     WantedBy=multi-user.target
     EOF
-    
     cd $HOME
     sudo systemctl daemon-reload
     sudo systemctl enable wardend
 ```
 Launch Node
 
-```sudo systemctl restart wardend && sudo journalctl -u wardend -f --no-hostname -o cat
-
+```bash
+sudo systemctl restart wardend && sudo journalctl -u wardend -f --no-hostname -o cat
 cd $HOME && \
 rm -rf .warden wardenprotocol && \
-rm -rf $(which wardend)
-```
+rm -rf $(which wardend)```
 
 
 Create a validator
@@ -118,16 +130,20 @@ If you want to create a validator in the testnet, follow the instructions in the
 
 Create Wallet
 
-```wardend keys add wallet
-
+```bash
+wardend keys add wallet
 ```
+
 faucet token
 
-```curl --json '{"address": "<your-address>"}' https://faucet.alfama.wardenprotocol.org
+```bash
+curl --json '{"address": "<your-address>"}' https://faucet.alfama.wardenprotocol.org
 ```
+
 Check Banlance
 
-```wardend q bank balances $(wardend keys show wallet -a)
+```bash
+wardend q bank balances $(wardend keys show wallet -a)
 ```
 
 Create a new validator
@@ -137,20 +153,23 @@ To create a validator and initialize it with a self-delegation, you need to crea
 
 Obtain your validator public key by running the following command:
 
-```wardend comet show-validator
+```bash
+wardend comet show-validator
 ```
 
 The output will be similar to this (with a different key):
 
-```{"@type":"/cosmos.crypto.ed25519.PubKey","key":"lR1d7YBVK5jYijOfWVKRFoWCsS4dg3kagT7LB9GnG8I="}
+```bash
+{"@type":"/cosmos.crypto.ed25519.PubKey","key":"lR1d7YBVK5jYijOfWVKRFoWCsS4dg3kagT7LB9GnG8I="}
 ```
 Create validator.json file
 
-```nano validator.json
+```bash
+nano validator.json
 ```
 
 The validator.json file has the following format: Change your personal information accordingly
-```
+```bash
 {    
 "pubkey": {"@type":"/cosmos.crypto.ed25519.PubKey","key":"lR1d7YBVK5jYijOfWVKRFoWCsS4dg3kagT7LB9GnG8I="},
 "amount": "1000000uward",
@@ -167,32 +186,33 @@ The validator.json file has the following format: Change your personal informati
 ```
 Finally, we're ready to submit the transaction to create the validator:
 
-```wardend tx staking create-validator validator.json \
+```bash
+wardend tx staking create-validator validator.json \
 --from=<key-name> \
 --chain-id=alfama \
 --fees=500uward
 ```
-Explorer
-``` (https://warden-explorer.paranorm.pro/warden/staking)
-```
 
 Delegate Token to your own validator
 
-```wardend tx staking delegate $(wardend keys show wallet --bech val -a)  1000000uward \
+```bash
+wardend tx staking delegate $(wardend keys show wallet --bech val -a)  1000000uward \
     --from=wallet \
     --chain-id=alfama \
     --fees=500uward
 ```
 Withdraw rewards and commission from your validator
 
-```wardend tx distribution withdraw-rewards $(wardend keys show wallet --bech val -a) \
+```bash
+wardend tx distribution withdraw-rewards $(wardend keys show wallet --bech val -a) \
     --from wallet \
     --commission \
     --chain-id=alfama \
     --fees=500uward
 ```
 Unjail validator
-```wardend tx slashing unjail \
+```bash
+wardend tx slashing unjail \
     --from=wallet \
     --chain-id=alfama \
     --fees=500uward
@@ -200,47 +220,90 @@ Unjail validator
 Services Management
 
  Reload Service
-```sudo systemctl daemon-reload
+ 
+```bash
+sudo systemctl daemon-reload
 ```
+
  Enable Service
-
-```sudo systemctl enable wardend
+```bash
+sudo systemctl enable wardend
 ```
+
 Disable Service
-
-```sudo systemctl disable wardend
- ```
-Start Service
-
-```sudo systemctl start wardend
+```bash
+sudo systemctl disable wardend
 ```
+
+Start Service
+```bash
+sudo systemctl start wardend
+```
+
 
 Stop Service
-
-```sudo systemctl stop wardend
+```bash
+sudo systemctl stop wardend
 ```
 
- Restart Service
- 
-```sudo systemctl restart wardend
+
+Restart Service
+ ```bash
+ sudo systemctl restart wardend
 ```
+
 
 Check Service Status
-
-```sudo systemctl status wardend
+```bash
+sudo systemctl status wardend
 ```
+
 
 Check Service Logs
-
-```sudo journalctl -u wardend -f --no-hostname -o cat
+```bash
+sudo journalctl -u wardend -f --no-hostname -o cat
 ```
+
 
 Backup Validator
-
-```cat $HOME/.warden/config/priv_validator_key.json
+```bash
+cat $HOME/.warden/config/priv_validator_key.json
 ```
+
 
 Remove node
-```sudo systemctl stop wardend && sudo systemctl disable wardend && sudo rm /etc/systemd/system/wardend.service && sudo systemctl daemon-reload && rm -rf $HOME/.warden && $HOME/wardenprotocol
-```
+```bash
+sudo systemctl stop wardend && sudo systemctl disable wardend && sudo rm /etc/systemd/system/wardend.service && sudo systemctl daemon-reload && rm -rf $HOME/.warden && $HOME/wardenprotocol```
 
+Query Wallet Balance
+```bash
+wardend q bank balances $(wardend keys show wallet -a)
+```
+Manual Upgrade
+
+```bash
+sudo systemctl stop wardend
+
+cd $HOME && rm -rf wardenprotocol
+git clone https://github.com/warden-protocol/wardenprotocol
+cd  wardenprotocol
+git checkout v0.2.0
+make install-wardend
+
+sudo systemctl start wardend
+sudo journalctl -u wardend -f --no-hostname -o cat
+```
+Edit Existing Validator
+```bash
+wardend tx staking edit-validator \
+--new-moniker="Moniker" \
+--identity=FFB0AA51A2DF5955 \
+--details="I'm sexy and I know it😉" \
+--chain-id=alfama \
+--commission-rate=0.1 \
+--from=wallet \
+--gas-prices=0.01uward \
+--gas-adjustment=1.5 \
+--gas=auto \
+-y 
+```
