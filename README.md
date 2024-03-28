@@ -14,12 +14,18 @@ Working directory: .warden
 
 [Faucet] (https://spaceward.alfama.wardenprotocol.org)
 
-
+- **Требования**:
+-250 GB SSD storage
+-Quad core CPU less than 10 years old if self hosting
+-Dual core CPU works if hosted with newer Xeons / EPYC
+-16 GB of ram,  4+ GB of virtual memory recommended
+-Hosting: 8 GB RAM + 8 GB Virtual Memory
 
 Обновляем систему 
 
 ```sudo apt update
-sudo apt-get install git curl build-essential make jq gcc snapd chrony lz4 tmux unzip bc -y```
+sudo apt-get install git curl build-essential make jq gcc snapd chrony lz4 tmux unzip bc -y
+```
 
 Устанавливаем Go
 
