@@ -12,7 +12,7 @@ Working directory: .warden
 [Docs vallidators] (https://docs.wardenprotocol.org/category/validate)
 
 
-[Faucet]: (https://spaceward.alfama.wardenprotocol.org)
+[Faucet] (https://spaceward.alfama.wardenprotocol.org)
 
 
 
