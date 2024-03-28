@@ -22,10 +22,13 @@ Working directory: .warden
 -Hosting: 8 GB RAM + 8 GB Virtual Memory
 
 Подготовка сервера
+
 # обновляем репозитории
+
 ```apt update && apt upgrade -y
 ```
 # устанавливаем необходимые утилиты
+
 ```apt install curl iptables build-essential git wget jq make gcc nano tmux htop nvme-cli pkg-config libssl-dev libleveldb-dev tar clang bsdmainutils ncdu unzip libleveldb-dev -y
 ```
 
