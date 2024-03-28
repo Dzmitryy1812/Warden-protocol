@@ -2,6 +2,7 @@
 
 ![Warden-protocol](https://pbs.twimg.com/media/GIKiCbCXgAAJGQr?format=png&name=large)
 Проект предлагает решение для ваших кошельков в разных сетях (включая ЕВМ). Проект предлагает решение для ваших кошельков в разных сетях (включая ЕВМ). На данный момент запущена тестовая сеть под названием - Alfama
+
 Details
 Network Chain ID: alfama
 Denom: uward
