@@ -1,13 +1,14 @@
 # Warden-protocol
 
 ![Warden-protocol](https://pbs.twimg.com/media/GIKiCbCXgAAJGQr?format=png&name=large)
-Проект предлагает решение для ваших кошельков в разных сетях (включая ЕВМ). Проект предлагает решение для ваших кошельков в разных сетях (включая ЕВМ). На данный момент запущена тестовая сеть под названием - Alfama
+Проект предлагает решение для ваших кошельков в разных сетях (включая ЕВМ). Проект предлагает решение для ваших кошельков в разных сетях (включая ЕВМ). На данный момент запущена тестовая сеть под названием - ```Alfama```
 
 Details
-Network Chain ID: alfama
-Denom: uward
-Binary: wardend
-Working directory: .warden
+
+Network Chain ID: ```alfama```
+Denom:``` uward```
+Binary: ```wardend```
+Working directory: ```.warden```
 
 [Docs] (https://docs.wardenprotocol.org/learn/spaceward/tutorial-spaceward)
 
