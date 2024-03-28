@@ -6,13 +6,13 @@ Denom: uward
 Binary: wardend
 Working directory: .warden
 
-Docs: ```https://docs.wardenprotocol.org/learn/spaceward/tutorial-spaceward
+[Docs] (https://docs.wardenprotocol.org/learn/spaceward/tutorial-spaceward)
 ```
 
-Docs: ```https://docs.wardenprotocol.org/category/validate
+Docs: https://docs.wardenprotocol.org/category/validate
 ```
 
-Faucet: ```https://spaceward.alfama.wardenprotocol.org
+Faucet: https://spaceward.alfama.wardenprotocol.org
 ```
 
 
